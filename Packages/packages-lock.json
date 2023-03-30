@@ -23,6 +23,12 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.hlod": {
+      "version": "file:../HLODSystem/com.unity.hlod",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.ide.rider": {
       "version": "3.0.18",
       "depth": 0,

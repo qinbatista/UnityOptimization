@@ -1,0 +1,5 @@
+enum ObjectType
+{
+    GameObject,
+    GPUInstance
+}
