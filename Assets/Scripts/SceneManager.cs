@@ -34,6 +34,10 @@ public partial class SceneManager : MonoBehaviour
                 _instanceBase = InstanceGameObject.Instance;
                 print("GameObject=" + _instanceBase);
                 break;
+            case ObjectType.GameObjectWithJob:
+                _instanceBase = InstanceGameObjectWithJob.Instance;
+                print("GameObject=" + _instanceBase);
+                break;
             case ObjectType.GPUInstance:
                 _instanceBase = InstanceGPUMesh.Instance;
                 print("GPUInstance=" + _instanceBase);

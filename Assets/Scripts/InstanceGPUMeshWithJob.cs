@@ -16,8 +16,7 @@ public class InstanceGPUMeshWithJob : InstanceBase
     RenderParams rp;
     private ComputeBuffer instanceTransformsBuffer;
     private ComputeBuffer indirectArgsBuffer;
-    private PositionJob _job;
-    private NativeArray<float3> _nativePositions;
+    private GPUPositionJob _job;
     private NativeArray<Matrix4x4> _nativeMatrices;
     static InstanceGPUMeshWithJob _instance;
     public static InstanceGPUMeshWithJob Instance { get => _instance; set => _instance = value; }
@@ -33,9 +32,8 @@ public class InstanceGPUMeshWithJob : InstanceBase
         rp = new RenderParams(material);
         instanceCount = (int)(_size.x * _size.y * _size.z);
 
-        _nativePositions = new NativeArray<float3>(instanceCount, Allocator.Persistent);
         _nativeMatrices = new NativeArray<Matrix4x4>(instanceCount, Allocator.Persistent);
-        _job = new PositionJob
+        _job = new GPUPositionJob
         {
         };
     }
@@ -43,7 +41,6 @@ public class InstanceGPUMeshWithJob : InstanceBase
     {
         _size.z = _size.z + 1;
         instanceCount = (int)(_size.x * _size.y * _size.z);
-        _nativePositions = new NativeArray<float3>(instanceCount, Allocator.Persistent);
         _nativeMatrices = new NativeArray<Matrix4x4>(instanceCount, Allocator.Persistent);
         return _size;
     }
@@ -51,7 +48,6 @@ public class InstanceGPUMeshWithJob : InstanceBase
     {
         _size.z = _size.z - 1;
         instanceCount = (int)(_size.x * _size.y * _size.z);
-        _nativePositions = new NativeArray<float3>(instanceCount, Allocator.Persistent);
         _nativeMatrices = new NativeArray<Matrix4x4>(instanceCount, Allocator.Persistent);
         return _size;
     }
@@ -65,12 +61,12 @@ public class InstanceGPUMeshWithJob : InstanceBase
     }
     public void OnDestroy()
     {
-        _nativePositions.Dispose();
-        _nativeMatrices.Dispose();
+        if (instanceCount > 0)
+            _nativeMatrices.Dispose();
     }
 }
 [BurstCompile]
-internal struct PositionJob : IJobParallelFor
+internal struct GPUPositionJob : IJobParallelFor
 {
     public NativeArray<Matrix4x4> Matrices;
     [ReadOnly] public float Time;
