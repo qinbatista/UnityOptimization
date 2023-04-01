@@ -1,31 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{94b58208-9f36-48f2-f3f1-87abd03333ad}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityMeshSimplifier", "UnityMeshSimplifier.csproj", "{beef99e5-f164-99d9-d67c-381074d61916}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HLOD", "HLOD.csproj", "{03dd477a-6796-cf48-b8eb-48269b47a544}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{504fba8f-83b0-ca40-0c26-bf39fbf511f3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HLODEditor", "HLODEditor.csproj", "{5c7156cb-4319-3533-6441-1d95b8ff4c4f}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{94b58208-9f36-48f2-f3f1-87abd03333ad}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{504fba8f-83b0-ca40-0c26-bf39fbf511f3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{94b58208-9f36-48f2-f3f1-87abd03333ad}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94b58208-9f36-48f2-f3f1-87abd03333ad}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{beef99e5-f164-99d9-d67c-381074d61916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{beef99e5-f164-99d9-d67c-381074d61916}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03dd477a-6796-cf48-b8eb-48269b47a544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{03dd477a-6796-cf48-b8eb-48269b47a544}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{504fba8f-83b0-ca40-0c26-bf39fbf511f3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{504fba8f-83b0-ca40-0c26-bf39fbf511f3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5c7156cb-4319-3533-6441-1d95b8ff4c4f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5c7156cb-4319-3533-6441-1d95b8ff4c4f}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94b58208-9f36-48f2-f3f1-87abd03333ad}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94b58208-9f36-48f2-f3f1-87abd03333ad}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{504fba8f-83b0-ca40-0c26-bf39fbf511f3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{504fba8f-83b0-ca40-0c26-bf39fbf511f3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
