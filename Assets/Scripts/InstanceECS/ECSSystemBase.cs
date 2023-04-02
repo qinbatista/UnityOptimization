@@ -11,12 +11,25 @@ public partial class ECSSystemBase : SystemBase
     int index = 0;
     protected override void OnUpdate()
     {
+        //get the reference of the component
+        RefRO<SpawnSpawnerComponent> authoringDataComponentRO = SystemAPI.GetSingletonRW<SpawnSpawnerComponent>();
+        //don't run code if the openECS is false
+        if(authoringDataComponentRO.ValueRO.openECS == false) return;
+
         // EntityQuery entityQuery = GetEntityQuery(typeof(AuthoringTag));
+
+        //get the value from the component
         SpawnSpawnerComponent authoringDataComponent = SystemAPI.GetSingleton<SpawnSpawnerComponent>();
+        Vector3 value = authoringDataComponentRO.ValueRO.size;
+
+        //get the command buffer
         EntityCommandBuffer ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
-        if (count == -1)
-            count = (int)(authoringDataComponent.size.x * authoringDataComponent.size.y * authoringDataComponent.size.z);
-        if (index < count)
+
+        //give the count value
+        if(count!= (int)(value.x * value.y * value.z))count = (int)(value.x * value.y * value.z);
+
+        //generate the entity
+        while (index != count)
         {
             // EntityManager.Instantiate(authoringDataComponent.entity);
             Entity entity = ecb.Instantiate(authoringDataComponent.entity);
@@ -26,11 +39,13 @@ public partial class ECSSystemBase : SystemBase
             });
             index++;
         }
+
         //find all entities with the ECSAspect and LocalTransform, you can't modify the value but about to call them
         // foreach ((ECSAspect _ECSAspect,LocalTransform _localTransform) in SystemAPI.Query<ECSAspect, LocalTransform>())
         // {
         //     _ECSAspect.SetPosition(SystemAPI.Time.ElapsedTime,_localTransform);
         // }
+
         //find all entities with the ECSAspect and LocalTransform, you can modify the value
         Entities.ForEach((ref LocalTransform _localTransform, ref ECSAspect _ECSAspect) =>
         {

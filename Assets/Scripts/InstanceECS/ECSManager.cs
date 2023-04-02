@@ -8,9 +8,11 @@ public class ECSManager : MonoBehaviour
     static ECSManager _instance;
     [SerializeField] GameObject _ECSGameObject;
     [SerializeField] Vector3 _size;
+    [SerializeField] bool _openECS = false;
     public static ECSManager Instance { get => _instance; set => _instance = value; }
     public GameObject ECSGameObject { get => _ECSGameObject; }
     public Vector3 Size { get => _size; }
+    public bool OpenECS { get => _openECS; }
 
     public virtual void Awake()
     {
@@ -43,7 +45,8 @@ public class InstanceECSManagerBaker : Baker<ECSManager>
         AddComponent(_entityManager, new SpawnSpawnerComponent
         {
             entity = _entity,
-            size = authoring.Size
+            size = authoring.Size,
+            openECS = authoring.OpenECS
         });
     }
 }
@@ -51,4 +54,5 @@ public struct SpawnSpawnerComponent : IComponentData
 {
     public Entity entity;
     public Vector3 size;
+    public bool openECS;
 }
