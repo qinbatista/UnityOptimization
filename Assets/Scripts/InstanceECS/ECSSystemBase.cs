@@ -24,6 +24,9 @@ public partial class ECSSystemBase : SystemBase
             });
             index++;
         }
-
+        foreach (ECSAspect _ECSAspect in SystemAPI.Query<ECSAspect>())
+        {
+            _ECSAspect.SetPosition(SystemAPI.Time.ElapsedTime);
+        }
     }
 }

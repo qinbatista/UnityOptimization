@@ -3,7 +3,7 @@ using UnityEngine;
 public class AuthoringData : MonoBehaviour
 {
     public Vector3 position;
-    public float speed;
+    public double speed;
 }
 
 public class DataBaker : Baker<AuthoringData>
@@ -14,13 +14,13 @@ public class DataBaker : Baker<AuthoringData>
         AddComponent(_entity, new AuthoringDataComponent
         {
             position = authoring.position,
-            speed = authoring.speed
+            speed = authoring.speed,
         });
     }
 }
 public struct AuthoringDataComponent : IComponentData
 {
     public Vector3 position;
-    public float speed;
+    public double speed;
 }
 
