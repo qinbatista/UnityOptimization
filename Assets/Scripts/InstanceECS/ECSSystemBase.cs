@@ -22,7 +22,7 @@ public partial class ECSSystemBase : SystemBase
         SpawnSpawnerComponent authoringDataComponent = SystemAPI.GetSingleton<SpawnSpawnerComponent>();
         Vector3 value = authoringDataComponentRO.ValueRO.size;
 
-        //get the command buffer
+
         EntityCommandBuffer ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
 
         //give the count value
@@ -47,9 +47,9 @@ public partial class ECSSystemBase : SystemBase
         // }
 
         //find all entities with the ECSAspect and LocalTransform, you can modify the value
-        Entities.ForEach((ref LocalTransform _localTransform, ref ECSAspect _ECSAspect) =>
-        {
-            _localTransform = _ECSAspect.SetPosition(SystemAPI.Time.ElapsedTime, _localTransform, authoringDataComponent.size);
-        }).ScheduleParallel();
+        // Entities.ForEach((ref LocalTransform _localTransform, ref ECSAspect _ECSAspect) =>
+        // {
+        //     _localTransform = _ECSAspect.SetPosition(SystemAPI.Time.ElapsedTime, _localTransform, authoringDataComponent.size);
+        // }).ScheduleParallel();
     }
 }
