@@ -3,5 +3,6 @@ enum ObjectType
     GameObject,
     GameObjectWithJob,
     GPUInstance,
-    GPUInstanceWithJob
+    GPUInstanceWithJob,
+    ECSInstance
 }

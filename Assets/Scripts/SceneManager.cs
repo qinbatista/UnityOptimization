@@ -16,7 +16,7 @@ public partial class SceneManager : MonoBehaviour
     void Start()
     {
         SwitchObjectType();
-        _instanceBase.Initial(_size, _gameObject);
+        _instanceBase?.Initial(_size, _gameObject);
     }
     public void AddALayerObjects()
     {
@@ -46,11 +46,15 @@ public partial class SceneManager : MonoBehaviour
                 _instanceBase = InstanceGPUMeshWithJob.Instance;
                 print("GPUInstanceWithJob=" + _instanceBase);
                 break;
+            case ObjectType.ECSInstance:
+                // _instanceBase = ECSManager.Instance;
+                print("ECSInstance=" + _instanceBase);
+                break;
         }
     }
     void Update()
     {
-        _instanceBase.InstanceUpdate();
+        _instanceBase?.InstanceUpdate();
         DisplayInfo();
     }
     void DisplayInfo()
