@@ -10,6 +10,7 @@ public partial class SceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _countObjects;
     [SerializeField] Vector3 _size;
     [SerializeField] ObjectType _objectType;
+    [SerializeField] Subsystem _sceneManager;
     int angle;
     InstanceBase _instanceBase;
     // int currentLayer = 0;

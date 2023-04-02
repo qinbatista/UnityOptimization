@@ -134,3 +134,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0, z: 0}
   speed: 0
+  size: {x: 100, y: 100, z: 1}
