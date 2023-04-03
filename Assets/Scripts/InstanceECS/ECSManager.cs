@@ -5,16 +5,9 @@ using Unity.Entities;
 using UnityEngine;
 public class ECSManager : MonoBehaviour
 {
-    static ECSManager _instance;
     [SerializeField] SOInstanceConfig _instanceConfig;
-    public static ECSManager Instance { get => _instance; set => _instance = value; }
     public Vector3 Size;
     public SOInstanceConfig InstanceConfig { get => _instanceConfig; }
-
-    public virtual void Awake()
-    {
-        if (_instance != null) { Destroy(gameObject); } else { _instance = this; }
-    }
 }
 public class InstanceECSManagerBaker : Baker<ECSManager>
 {

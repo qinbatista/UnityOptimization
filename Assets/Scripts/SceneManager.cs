@@ -11,7 +11,7 @@ public partial class SceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI _countObjects;
     InstanceBase _instanceBase;
     // int currentLayer = 0;
-    void Awake()
+    void Start()
     {
         _instanceConfig.OpenECS = false;
         SwitchObjectType();
@@ -29,11 +29,11 @@ public partial class SceneManager : MonoBehaviour
         {
             case ObjectType.GameObject:
                 _instanceBase = InstanceGameObject.Instance;
-                print("GameObject=" + _instanceBase);
+                print("InstanceGameObject=" + _instanceBase);
                 break;
             case ObjectType.GameObjectWithJob:
                 _instanceBase = InstanceGameObjectWithJob.Instance;
-                print("GameObject=" + _instanceBase);
+                print("InstanceGameObjectWithJob=" + _instanceBase);
                 break;
             case ObjectType.GPUInstance:
                 _instanceBase = InstanceGPUMesh.Instance;

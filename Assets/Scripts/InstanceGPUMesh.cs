@@ -19,12 +19,13 @@ public class InstanceGPUMesh : InstanceBase
     public static InstanceGPUMesh Instance { get => _instance; set => _instance = value; }
     public virtual void Awake()
     {
+        Debug.Log("InstanceGPUMesh");
         if (_instance != null) { Destroy(gameObject); } else { _instance = this; }
     }
     public override void Initial()
     {
-        mesh = gameObject.GetComponent<MeshFilter>().sharedMesh;
-        material = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
+        mesh = _instanceConfig.ECSGameObject.GetComponent<MeshFilter>().sharedMesh;
+        material = _instanceConfig.ECSGameObject.GetComponent<MeshRenderer>().sharedMaterial;
         rp = new RenderParams(material);
         instanceCount = (int)(_instanceConfig.Size.x * _instanceConfig.Size.y * _instanceConfig.Size.z);
         matrices = new Matrix4x4[instanceCount];
