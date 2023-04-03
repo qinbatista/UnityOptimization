@@ -5,31 +5,27 @@ using UnityEngine;
 public partial class SceneManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] GameObject _gameObject;
+    [SerializeField] SOInstanceConfig _instanceConfig;
+    [SerializeField] TextMeshProUGUI _methodName;
     [SerializeField] TextMeshProUGUI _FPS;
     [SerializeField] TextMeshProUGUI _countObjects;
-    [SerializeField] Vector3 _size;
-    [SerializeField] ObjectType _objectType;
-    [SerializeField] Subsystem _sceneManager;
-    int angle;
     InstanceBase _instanceBase;
     // int currentLayer = 0;
-    void Start()
+    void Awake()
     {
+        _instanceConfig.OpenECS = false;
         SwitchObjectType();
-        _instanceBase?.Initial(_size, _gameObject);
+        _instanceConfig.Size = new Vector3(_instanceConfig.Size.x, _instanceConfig.Size.y, 1);
+        _instanceBase?.Initial();
     }
     public void AddALayerObjects()
     {
-        _size = _instanceBase.AddAALayer();
+        _instanceBase?.AddAALayer();
     }
-    public void ReduceALayerObjects()
-    {
-        _size = _instanceBase.ReduceALayer();
-    }
+
     public void SwitchObjectType()
     {
-        switch (_objectType)
+        switch (_instanceConfig.InstanceObjectType)
         {
             case ObjectType.GameObject:
                 _instanceBase = InstanceGameObject.Instance;
@@ -47,9 +43,9 @@ public partial class SceneManager : MonoBehaviour
                 _instanceBase = InstanceGPUMeshWithJob.Instance;
                 print("GPUInstanceWithJob=" + _instanceBase);
                 break;
-            case ObjectType.ECSInstance:
-                // _instanceBase = ECSManager.Instance;
-                print("ECSInstance=" + _instanceBase);
+            case ObjectType.ECSInstanceJob:
+                print("ECSInstance: Initial success, if no objects, start game again");
+                _instanceConfig.OpenECS = true;
                 break;
         }
     }
@@ -60,7 +56,8 @@ public partial class SceneManager : MonoBehaviour
     }
     void DisplayInfo()
     {
-        _countObjects.text = "Instance:" + (_size.x * _size.y * _size.z).ToString();
+        _countObjects.text = "Instance:" + (_instanceConfig.Size.x * _instanceConfig.Size.y * _instanceConfig.Size.z).ToString();
         _FPS.text = "FPS:" + ((int)(1.0f / Time.smoothDeltaTime)).ToString();
+        _methodName.text = _instanceConfig.InstanceObjectType.ToString();
     }
 }

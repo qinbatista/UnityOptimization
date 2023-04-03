@@ -1,8 +1,8 @@
-enum ObjectType
+public enum ObjectType
 {
     GameObject,
     GameObjectWithJob,
     GPUInstance,
     GPUInstanceWithJob,
-    ECSInstance
+    ECSInstanceJob
 }

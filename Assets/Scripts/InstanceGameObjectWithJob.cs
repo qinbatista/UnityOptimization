@@ -9,8 +9,7 @@ using UnityEngine.Jobs;
 
 public class InstanceGameObjectWithJob : InstanceBase
 {
-    Vector3 _size;
-    GameObject _gameObject;
+    [SerializeField] SOInstanceConfig _instanceConfig;
     List<List<GameObject>> FullGameObjectList = new List<List<GameObject>>();
     private GameObjectPositionJob _job;
     static InstanceGameObjectWithJob _instance;
@@ -20,70 +19,39 @@ public class InstanceGameObjectWithJob : InstanceBase
     {
         if (_instance != null) { Destroy(gameObject); } else { _instance = this; }
     }
-    public override void Initial(Vector3 size, GameObject gameObject)
+    public override void Initial()
     {
-        _size = size;
-        _gameObject = gameObject;
-        _transformAccessArray = new TransformAccessArray((int)(_size.x * _size.y * _size.z));
+        _transformAccessArray = new TransformAccessArray((int)(_instanceConfig.Size.x * _instanceConfig.Size.y * _instanceConfig.Size.z));
         _job = new GameObjectPositionJob();
         List<GameObject> GameObjectList = new List<GameObject>();
-        for (int y = 0; y < _size.y; y++)
-            for (int x = 0; x < _size.x; x++)
+        for (int y = 0; y < _instanceConfig.Size.y; y++)
+            for (int x = 0; x < _instanceConfig.Size.x; x++)
             {
-                GameObject cubeInstance = Instantiate(_gameObject, new Vector3(x, y, _size.z), Quaternion.identity, this.transform);
+                GameObject cubeInstance = Instantiate(_instanceConfig.ECSGameObject, new Vector3(x, y, _instanceConfig.Size.z), Quaternion.identity, this.transform);
                 GameObjectList.Add(cubeInstance);
                 _transformAccessArray.Add(cubeInstance.transform);
             }
         FullGameObjectList.Add(GameObjectList);
     }
-    public override Vector3 AddAALayer()
+    public override void AddAALayer()
     {
-        _size.z = _size.z + 1;
+        _instanceConfig.Size = new Vector3(_instanceConfig.Size.x, _instanceConfig.Size.y, _instanceConfig.Size.z + 1);
         List<GameObject> GameObjectList = new List<GameObject>();
-        for (int y = 0; y < _size.y; y++)
-            for (int x = 0; x < _size.x; x++)
+        for (int y = 0; y < _instanceConfig.Size.y; y++)
+            for (int x = 0; x < _instanceConfig.Size.x; x++)
             {
-                GameObject cubeInstance = Instantiate(_gameObject, new Vector3(x, y, _size.z), Quaternion.identity, this.transform);
+                GameObject cubeInstance = Instantiate(_instanceConfig.ECSGameObject, new Vector3(x, y, _instanceConfig.Size.z), Quaternion.identity, this.transform);
                 GameObjectList.Add(cubeInstance);
                 _transformAccessArray.Add(cubeInstance.transform);
             }
         FullGameObjectList.Add(GameObjectList);
-        return _size;
     }
-    public override Vector3 ReduceALayer(bool destroyAll = false)
-    {
-        if (destroyAll)
-        {
-            foreach (var item in FullGameObjectList)
-            {
-                foreach (var item2 in item)
-                {
-                    Destroy(item2);
-                }
-            }
-            FullGameObjectList.Clear();
-            _size.z = 0;
-            return _size;
-        }
-        else
-        {
-            if (_size.z > 1)
-            {
-                _size.z = _size.z - 1;
-                foreach (var item in FullGameObjectList[(int)_size.z])
-                {
-                    Destroy(item);
-                }
-                FullGameObjectList.RemoveAt((int)_size.z);
-            }
-            return _size;
-        }
-    }
+
     public override void InstanceUpdate()
     {
         _job.Time = Time.time;
         _job.deltaTime = Time.deltaTime;
-        _job.size = _size;
+        _job.size = _instanceConfig.Size;
         _job.Schedule(_transformAccessArray).Complete();
     }
     void OnDestroy()

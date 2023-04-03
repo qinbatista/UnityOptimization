@@ -15,14 +15,14 @@ public partial struct ECSSystem : ISystem
     void OnUpdate(ref SystemState state)
     {
         //get the reference of the component
-        RefRO<SpawnSpawnerComponent> authoringDataComponentRO = SystemAPI.GetSingletonRW<SpawnSpawnerComponent>();
+        // RefRO<SpawnSpawnerComponent> authoringDataComponentRO = SystemAPI.GetSingletonRW<SpawnSpawnerComponent>();
         //don't run code if the openECS is false
-        if (authoringDataComponentRO.ValueRO.openECS == false) return;
-        new SetPositionJob
-        {
-            time = (float)SystemAPI.Time.ElapsedTime,
-            size = authoringDataComponentRO.ValueRO.size
-        }.ScheduleParallel();
+        // if (authoringDataComponentRO.ValueRO.openECS == false) return;
+        // new SetPositionJob
+        // {
+        //     time = (float)SystemAPI.Time.ElapsedTime,
+        //     size = authoringDataComponentRO.ValueRO.size
+        // }.ScheduleParallel();
     }
 }
 [BurstCompile]

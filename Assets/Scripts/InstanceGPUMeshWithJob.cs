@@ -8,9 +8,9 @@ using Unity.Mathematics;
 using UnityEngine;
 public class InstanceGPUMeshWithJob : InstanceBase
 {
+    [SerializeField] SOInstanceConfig _instanceConfig;
     Mesh mesh;
     Material material;
-    Vector3 _size;
     int instanceCount;
     Matrix4x4[] matrices;
     RenderParams rp;
@@ -24,38 +24,30 @@ public class InstanceGPUMeshWithJob : InstanceBase
     {
         if (_instance != null) { Destroy(gameObject); } else { _instance = this; }
     }
-    public override void Initial(Vector3 size, GameObject gameObject)
+    public override void Initial()
     {
-        _size = size;
-        mesh = gameObject.GetComponent<MeshFilter>().sharedMesh;
-        material = gameObject.GetComponent<MeshRenderer>().sharedMaterial;
+        mesh = _instanceConfig.ECSGameObject.GetComponent<MeshFilter>().sharedMesh;
+        material = _instanceConfig.ECSGameObject.GetComponent<MeshRenderer>().sharedMaterial;
         rp = new RenderParams(material);
-        instanceCount = (int)(_size.x * _size.y * _size.z);
+        instanceCount = (int)(_instanceConfig.Size.x * _instanceConfig.Size.y * _instanceConfig.Size.z);
 
         _nativeMatrices = new NativeArray<Matrix4x4>(instanceCount, Allocator.Persistent);
         _job = new GPUPositionJob
         {
         };
     }
-    public override Vector3 AddAALayer()
+    public override void AddAALayer()
     {
-        _size.z = _size.z + 1;
-        instanceCount = (int)(_size.x * _size.y * _size.z);
+        _instanceConfig.Size = new Vector3(_instanceConfig.Size.x, _instanceConfig.Size.y, _instanceConfig.Size.z + 1);
+        instanceCount = (int)(_instanceConfig.Size.x * _instanceConfig.Size.y * _instanceConfig.Size.z);
         _nativeMatrices = new NativeArray<Matrix4x4>(instanceCount, Allocator.Persistent);
-        return _size;
     }
-    public override Vector3 ReduceALayer(bool destroyAll = false)
-    {
-        _size.z = _size.z - 1;
-        instanceCount = (int)(_size.x * _size.y * _size.z);
-        _nativeMatrices = new NativeArray<Matrix4x4>(instanceCount, Allocator.Persistent);
-        return _size;
-    }
+
     public override void InstanceUpdate()
     {
         _job.Matrices = _nativeMatrices;
         _job.Time = Time.time;
-        _job.size = _size;
+        _job.size = _instanceConfig.Size;
         _job.Schedule(_nativeMatrices.Length, 64).Complete();
         Graphics.RenderMeshInstanced(rp, mesh, 0, _nativeMatrices);
     }

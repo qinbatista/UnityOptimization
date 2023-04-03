@@ -14,7 +14,7 @@ public partial class ECSSystemBase : SystemBase
         //get the reference of the component
         RefRO<SpawnSpawnerComponent> authoringDataComponentRO = SystemAPI.GetSingletonRW<SpawnSpawnerComponent>();
         //don't run code if the openECS is false
-        if(authoringDataComponentRO.ValueRO.openECS == false) return;
+        if (authoringDataComponentRO.ValueRO.openECS == false) return;
 
         // EntityQuery entityQuery = GetEntityQuery(typeof(AuthoringTag));
 
@@ -26,7 +26,7 @@ public partial class ECSSystemBase : SystemBase
         EntityCommandBuffer ecb = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>().CreateCommandBuffer(World.Unmanaged);
 
         //give the count value
-        if(count!= (int)(value.x * value.y * value.z))count = (int)(value.x * value.y * value.z);
+        if (count != (int)(value.x * value.y * value.z)) count = (int)(value.x * value.y * value.z);
 
         //generate the entity
         while (index != count)
@@ -46,10 +46,10 @@ public partial class ECSSystemBase : SystemBase
         //     _ECSAspect.SetPosition(SystemAPI.Time.ElapsedTime,_localTransform);
         // }
 
-        //find all entities with the ECSAspect and LocalTransform, you can modify the value
-        // Entities.ForEach((ref LocalTransform _localTransform, ref ECSAspect _ECSAspect) =>
-        // {
-        //     _localTransform = _ECSAspect.SetPosition(SystemAPI.Time.ElapsedTime, _localTransform, authoringDataComponent.size);
-        // }).ScheduleParallel();
+        // find all entities with the ECSAspect and LocalTransform, you can modify the value
+        Entities.ForEach((ref LocalTransform _localTransform, ref ECSAspect _ECSAspect) =>
+        {
+            _localTransform = _ECSAspect.SetPosition(SystemAPI.Time.ElapsedTime, _localTransform, authoringDataComponent.size);
+        }).ScheduleParallel();
     }
 }
